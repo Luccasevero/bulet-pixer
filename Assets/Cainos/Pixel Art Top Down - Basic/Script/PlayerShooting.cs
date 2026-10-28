@@ -6,10 +6,23 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Transform firePoint;
     [SerializeField] private float fireRate = 1f;         // tiros por segundo
+    [SerializeField] private float shotDelay = 0.2f; // segundos entre o início do ataque e a saída da bala
     [SerializeField] private float detectionRadius = 4f;  // alcance de detecção de inimigos
     [SerializeField] private LayerMask enemyLayer;         // layer usada pelos inimigos
 
     private float fireCooldown;
+
+   private Animator animator;
+    void Awake() {
+        animator = GetComponent<Animator>();
+    }
+
+    [Header("Aprimoramentos")]
+    [SerializeField] private int pierce = 1; // 1 = o tiro some no primeiro inimigo
+
+    public void AddPierce(int amount) {
+        pierce += amount;
+    }
 
     void Update()
     {
@@ -43,18 +56,29 @@ public class PlayerShooting : MonoBehaviour
         return nearest;
     }
 
-    private void Shoot(Transform target)
+    private void Shoot(Transform target) {
+    if (bulletPrefab == null || firePoint == null) return;
+
+    Vector2 direction = (target.position - firePoint.position).normalized;
+
+    if (animator != null) animator.SetTrigger("Attack");
+
+    SpriteRenderer sr = GetComponent<SpriteRenderer>();
+    if (sr != null) sr.flipX = direction.x < 0f;
+
+    StartCoroutine(SpawnBulletAfterDelay(direction));
+    }
+
+    private System.Collections.IEnumerator SpawnBulletAfterDelay(Vector2 direction){
+    yield return new WaitForSeconds(shotDelay);
+
+    GameObject bulletObj = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
+    Bullet bullet = bulletObj.GetComponent<Bullet>();
+    if (bullet != null)
     {
-        if (bulletPrefab == null || firePoint == null) return;
-
-        Vector2 direction = (target.position - firePoint.position).normalized;
-
-        GameObject bulletObj = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
-        Bullet bullet = bulletObj.GetComponent<Bullet>();
-        if (bullet != null)
-        {
-            bullet.SetDirection(direction);
-        }
+        bullet.SetDirection(direction);
+        bullet.SetPierce(pierce);
+    }
     }
 
     // Desenha o raio de detecção na Scene view (só aparece no Editor, ajuda a visualizar o alcance)
