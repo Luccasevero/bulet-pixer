@@ -9,8 +9,20 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField] private float detectionRadius = 4f;  // alcance de detecção de inimigos
     [SerializeField] private LayerMask enemyLayer;         // layer usada pelos inimigos
 
+    [Header("Áudio")]
+    [SerializeField] private AudioClip shootSound; // Som do tiro
     private float fireCooldown;
+    private AudioSource audioSource;
 
+    void Start()
+    {
+        //Pega componente AudioSource atralado ao heroi
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            Debug.LogWarning("AudioSource não encontrado não encontrado no heroi! Certifique-se de adicionar um componente AudioSource.");
+        }
+    }
     void Update()
     {
         fireCooldown -= Time.deltaTime;
@@ -55,6 +67,18 @@ public class PlayerShooting : MonoBehaviour
         {
             bullet.SetDirection(direction);
         }
+        if (audioSource != null)
+        {
+            if(shootSound != null)
+            {
+                audioSource.PlayOneShot(shootSound);
+            }
+            else
+            {
+                audioSource.Play();
+            }
+        }
+    
     }
 
     // Desenha o raio de detecção na Scene view (só aparece no Editor, ajuda a visualizar o alcance)
