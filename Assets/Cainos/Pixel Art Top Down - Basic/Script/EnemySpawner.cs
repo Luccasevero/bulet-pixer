@@ -2,59 +2,85 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [Header("Inimigo")]
-    [SerializeField] private GameObject enemyPrefab;
+    [System.Serializable]
+    public class SpawnStage
+    {
+        public string name = "Etapa";
+        public float startTime = 0f;       // segundo de jogo em que esta etapa começa
+        public GameObject[] enemies;        // inimigos sorteados nesta etapa (um ou mais prefabs)
+        public float startInterval = 2f;    // segundos entre spawns quando a etapa começa
+        public float minInterval = 0.5f;    // o mais rápido que o spawn pode ficar nesta etapa
+        public int enemiesPerSpawn = 2; // quantidade de inimigos por nascimento
+    }
+
+    [Header("Etapas (a que tiver o maior Start Time já alcançado é a ativa)")]
+    [SerializeField] private SpawnStage[] stages;
 
     [Header("Área de spawn (retângulo: os inimigos nascem nas bordas)")]
     [SerializeField] private Vector2 areaCenter = Vector2.zero;
     [SerializeField] private Vector2 areaSize = new Vector2(20f, 12f);
 
-    [Header("Ritmo da horda")]
-    [SerializeField] private float startInterval = 2f;               // segundos entre spawns no começo
-    [SerializeField] private float minInterval = 0.4f;               // o mais rápido que pode ficar
-    [SerializeField] private float intervalDecreasePerSecond = 0.02f; // quanto o intervalo diminui por segundo
+    [Header("Ritmo")]
+    [SerializeField] private float intervalDecreasePerSecond = 0.02f; // quanto o intervalo diminui por segundo dentro da etapa
     [SerializeField] private int maxEnemies = 50;                    // limite de inimigos vivos ao mesmo tempo
 
-    [Header("Velocidade crescente")]
-    [SerializeField] private float speedIncreasePerSecond = 0.01f;
-    [SerializeField] private float maxSpeedMultiplier = 1.75f;
-
-private float currentSpeedMultiplier = 1f;
-
+    private float elapsed;
     private float timer;
-    private float currentInterval;
 
     void Start()
     {
-        currentInterval = startInterval;
-        timer = currentInterval;
+        timer = (stages != null && stages.Length > 0) ? stages[0].startInterval : 1f;
     }
 
     void Update()
     {
-        // A cada segundo que passa, os inimigos nascem um pouco mais rápido
-        currentInterval = Mathf.Max(minInterval, currentInterval - intervalDecreasePerSecond * Time.deltaTime);
+        if (stages == null || stages.Length == 0) return;
 
-        currentSpeedMultiplier = Mathf.Min(maxSpeedMultiplier,
-        currentSpeedMultiplier + speedIncreasePerSecond * Time.deltaTime);
+        elapsed += Time.deltaTime;
+
+        SpawnStage stage = GetCurrentStage();
+        if (stage == null) return;
+
+        float timeInStage = elapsed - stage.startTime;
+        float interval = Mathf.Max(stage.minInterval, stage.startInterval - intervalDecreasePerSecond * timeInStage);
 
         timer -= Time.deltaTime;
         if (timer <= 0f)
         {
-            timer = currentInterval;
-            TrySpawn();
+            timer = interval;
+            TrySpawn(stage);
         }
     }
 
-    private void TrySpawn()
+    private SpawnStage GetCurrentStage()
     {
-        if (enemyPrefab == null) return;
-        if (GameObject.FindGameObjectsWithTag("Enemy").Length >= maxEnemies) return;
-
-        GameObject enemy = Instantiate(enemyPrefab, GetRandomEdgePosition(), Quaternion.identity);
-        EnemyChase chase = enemy.GetComponent<EnemyChase>();
-        if (chase != null) chase.SetSpeedMultiplier(currentSpeedMultiplier);
+        SpawnStage current = null;
+        foreach (SpawnStage s in stages)
+        {
+            if (elapsed >= s.startTime && (current == null || s.startTime >= current.startTime))
+            {
+                current = s;
+            }
+        }
+        return current;
     }
+
+    private void TrySpawn(SpawnStage stage)
+{
+    if (stage.enemies == null || stage.enemies.Length == 0) return;
+
+    for (int i = 0; i < stage.enemiesPerSpawn; i++)
+    {
+        if (GameObject.FindGameObjectsWithTag("Enemy").Length >= maxEnemies)
+            return;
+
+        GameObject prefab = stage.enemies[Random.Range(0, stage.enemies.Length)];
+
+        if (prefab == null) continue;
+
+        Instantiate(prefab, GetRandomEdgePosition(), Quaternion.identity);
+    }
+}
 
     // Sorteia um ponto em uma das 4 bordas do retângulo
     private Vector2 GetRandomEdgePosition()
@@ -86,7 +112,6 @@ private float currentSpeedMultiplier = 1f;
         return areaCenter + new Vector2(x, y);
     }
 
-    // Desenha o retângulo de spawn na Scene view quando o objeto está selecionado
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;

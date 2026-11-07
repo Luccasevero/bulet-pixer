@@ -19,6 +19,18 @@ public class PlayerShooting : MonoBehaviour
 
     [Header("Aprimoramentos")]
     [SerializeField] private int pierce = 1; // 1 = o tiro some no primeiro inimigo
+    [SerializeField] private int damage = 1;
+    [SerializeField] private float maxFireRate = 4f; // teto pra não ficar rápido demais
+
+    public void AddDamage(int amount)
+    {
+    damage += amount;
+    }
+
+public void AddFireRate(float amount)
+    {
+    fireRate = Mathf.Min(fireRate + amount, maxFireRate);
+    }
 
     public void AddPierce(int amount) {
         pierce += amount;
@@ -78,6 +90,7 @@ public class PlayerShooting : MonoBehaviour
     {
         bullet.SetDirection(direction);
         bullet.SetPierce(pierce);
+        bullet.SetDamage(damage);
     }
     }
 
