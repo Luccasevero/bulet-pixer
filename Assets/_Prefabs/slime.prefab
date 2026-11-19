@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 445375668183030335}
   - component: {fileID: 5567364252687678810}
   - component: {fileID: 293118631630516767}
+  - component: {fileID: -9001819639035300191}
   m_Layer: 6
   m_Name: slime
   m_TagString: Enemy
@@ -210,3 +211,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   maxHealth: 1
   flashTime: 0.08
+--- !u!114 &-9001819639035300191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1934664302546616051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5c4958f29e97a34494fd8603931b1cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyContactDamage
+  damage: 1

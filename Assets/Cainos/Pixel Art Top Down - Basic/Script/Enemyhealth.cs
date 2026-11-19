@@ -25,6 +25,12 @@ public class EnemyHealth : MonoBehaviour
 
         if (currentHealth <= 0)
         {
+            // Conta a morte na pontuação antes de destruir o inimigo
+            if (GameStats.Instance != null)
+            {
+                GameStats.Instance.AddKill();
+            }
+
             Destroy(gameObject);
             return;
         }
