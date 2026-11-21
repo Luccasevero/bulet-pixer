@@ -6,23 +6,34 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Transform firePoint;
     [SerializeField] private float fireRate = 1f;         // tiros por segundo
+    [SerializeField] private float shotDelay = 0.2f;      // segundos entre o início do ataque e a saída da bala
     [SerializeField] private float detectionRadius = 4f;  // alcance de detecção de inimigos
     [SerializeField] private LayerMask enemyLayer;         // layer usada pelos inimigos
 
+    [Header("Aprimoramentos")]
+    [SerializeField] private int pierce = 1;               // 1 = o tiro some no primeiro inimigo
+    [SerializeField] private int damage = 1;
+    [SerializeField] private float maxFireRate = 4f;       // teto pra não ficar rápido demais
+
     [Header("Áudio")]
-    [SerializeField] private AudioClip shootSound; // Som do tiro
+    [SerializeField] private AudioClip shootSound;         // Som do tiro
+
     private float fireCooldown;
+    private Animator animator;
     private AudioSource audioSource;
 
-    void Start()
+    void Awake()
     {
-        //Pega componente AudioSource atralado ao heroi
+        animator = GetComponent<Animator>();
+
+        // Pega o componente AudioSource que está no herói
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
         {
-            Debug.LogWarning("AudioSource não encontrado não encontrado no heroi! Certifique-se de adicionar um componente AudioSource.");
+            Debug.LogWarning("AudioSource não encontrado no herói! Certifique-se de adicionar um componente AudioSource.");
         }
     }
+
     void Update()
     {
         fireCooldown -= Time.deltaTime;
@@ -33,6 +44,22 @@ public class PlayerShooting : MonoBehaviour
             Shoot(target);
             fireCooldown = 1f / fireRate;
         }
+    }
+
+    // Métodos chamados pelos itens e pelo nível pra melhorar o hero
+    public void AddDamage(int amount)
+    {
+        damage += amount;
+    }
+
+    public void AddFireRate(float amount)
+    {
+        fireRate = Mathf.Min(fireRate + amount, maxFireRate);
+    }
+
+    public void AddPierce(int amount)
+    {
+        pierce += amount;
     }
 
     private Transform FindNearestEnemy()
@@ -61,15 +88,40 @@ public class PlayerShooting : MonoBehaviour
 
         Vector2 direction = (target.position - firePoint.position).normalized;
 
+        // Animação de ataque
+        if (animator != null)
+        {
+            animator.SetTrigger("Attack");
+        }
+
+        // Vira o hero pro lado do inimigo
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        if (sr != null)
+        {
+            sr.flipX = direction.x < 0f;
+        }
+
+        // A bala e o som saem depois do atraso, no momento do golpe
+        StartCoroutine(SpawnBulletAfterDelay(direction));
+    }
+
+    private System.Collections.IEnumerator SpawnBulletAfterDelay(Vector2 direction)
+    {
+        yield return new WaitForSeconds(shotDelay);
+
         GameObject bulletObj = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
         Bullet bullet = bulletObj.GetComponent<Bullet>();
         if (bullet != null)
         {
             bullet.SetDirection(direction);
+            bullet.SetPierce(pierce);
+            bullet.SetDamage(damage);
         }
+
+        // Som do ataque
         if (audioSource != null)
         {
-            if(shootSound != null)
+            if (shootSound != null)
             {
                 audioSource.PlayOneShot(shootSound);
             }
@@ -78,7 +130,6 @@ public class PlayerShooting : MonoBehaviour
                 audioSource.Play();
             }
         }
-    
     }
 
     // Desenha o raio de detecção na Scene view (só aparece no Editor, ajuda a visualizar o alcance)
