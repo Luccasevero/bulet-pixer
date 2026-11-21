@@ -175,6 +175,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
   maxHealth: 3
   flashTime: 0.08
+  xpGemPrefab: {fileID: 4641730622946375379, guid: afdae427e87162e40b49fa756e66f725, type: 3}
+  xpValue: 3
 --- !u!70 &6942680987333145144
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
