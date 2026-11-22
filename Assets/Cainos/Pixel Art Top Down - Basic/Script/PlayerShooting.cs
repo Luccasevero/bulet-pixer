@@ -17,6 +17,7 @@ public class PlayerShooting : MonoBehaviour
 
     [Header("Áudio")]
     [SerializeField] private AudioClip shootSound;         // Som do tiro
+    [SerializeField] private AudioClip attackSound;
 
     private float fireCooldown;
     private Animator animator;
@@ -44,6 +45,10 @@ public class PlayerShooting : MonoBehaviour
             Shoot(target);
             fireCooldown = 1f / fireRate;
         }
+    }
+    public void RealeasePower()
+    {
+        PlaySound(attackSound);
     }
 
     // Métodos chamados pelos itens e pelo nível pra melhorar o hero
@@ -119,17 +124,23 @@ public class PlayerShooting : MonoBehaviour
         }
 
         // Som do ataque
-        if (audioSource != null)
+    
+        if (shootSound != null)
         {
-            if (shootSound != null)
-            {
-                audioSource.PlayOneShot(shootSound);
-            }
-            else
-            {
-                audioSource.Play();
-            }
+            audioSource.PlayOneShot(shootSound);
         }
+        else
+        {
+            audioSource.Play();
+        }
+        
+    }
+    private void PlaySound(AudioClip clip)
+    {
+        if(audioSource != null && clip != null)
+        {
+            audioSource.PlayOneShot(clip);
+        }   
     }
 
     // Desenha o raio de detecção na Scene view (só aparece no Editor, ajuda a visualizar o alcance)
