@@ -14127,8 +14127,8 @@ MonoBehaviour:
   xpIncreasePerLevel: 3
   xpBar: {fileID: 117321824}
   levelText: {fileID: 902163626}
---- !u!114 &930709313
-MonoBehaviour:
+--- !u!82 &930709313
+AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
