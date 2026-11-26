@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: c20a131ee400df544a6cafa00e56cca6
+guid: 84d49faf4128d5648b23b11898d0adb1
 AudioImporter:
   externalObjects: {}
   serializedVersion: 6
@@ -20,10 +20,3 @@ AudioImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 163948
-  packageName: Bow and Hammer Sound Effects
-  packageVersion: 1.0
-  assetPath: Assets/Bow and Hammer Sound Effects/Hammer/HammerImpact15.wav
-  uploadId: 355241
