@@ -9,6 +9,10 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] private GameObject xpGemPrefab;  // gema que ele solta ao morrer
     [SerializeField] private int xpValue = 1;         // quanta experiência a gema vale
 
+    [Header("Coração (recupera vida)")]
+    [SerializeField] private GameObject heartPrefab;                  // coração que pode cair ao morrer
+    [SerializeField, Range(0f, 1f)] private float heartDropChance = 0.05f; // 0,05 = 5% de chance
+
     private int currentHealth;
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
@@ -56,6 +60,13 @@ public class EnemyHealth : MonoBehaviour
             {
                 xp.SetValue(xpValue);
             }
+        }
+
+        // Com uma chance, solta também um coração (um pouco deslocado pra não ficar em cima da gema)
+        if (heartPrefab != null && Random.value < heartDropChance)
+        {
+            Vector3 offset = (Vector3)(Random.insideUnitCircle * 0.4f);
+            Instantiate(heartPrefab, transform.position + offset, Quaternion.identity);
         }
 
         Destroy(gameObject);

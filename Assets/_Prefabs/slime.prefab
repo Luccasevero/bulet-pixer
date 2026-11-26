@@ -213,6 +213,8 @@ MonoBehaviour:
   flashTime: 0.08
   xpGemPrefab: {fileID: 4641730622946375379, guid: afdae427e87162e40b49fa756e66f725, type: 3}
   xpValue: 1
+  heartPrefab: {fileID: 2508488220161311520, guid: 342cfc13904d72f47bd2018d2b73a8f5, type: 3}
+  heartDropChance: 0.01
 --- !u!114 &-9001819639035300191
 MonoBehaviour:
   m_ObjectHideFlags: 0

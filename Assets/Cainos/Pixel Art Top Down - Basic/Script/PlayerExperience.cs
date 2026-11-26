@@ -16,6 +16,7 @@ public class PlayerExperience : MonoBehaviour
     private int level = 1;
     private int currentXp;
     private int xpToNext;
+    private PlayerSpecial special;
 
     public int Level
     {
@@ -24,6 +25,7 @@ public class PlayerExperience : MonoBehaviour
 
     void Awake()
     {
+        special = GetComponent<PlayerSpecial>();
         xpToNext = baseXpToLevel;
         UpdateUI();
     }
@@ -46,10 +48,17 @@ public class PlayerExperience : MonoBehaviour
 
     private void OnLevelUp()
     {
-        // Por enquanto só avisa na tela. Na próxima etapa, aqui abre a escolha de aprimoramento.
+        // Ganha a habilidade especial (só uma por vez: se já tinha, não acumula)
+        bool abilityReady = special != null && special.GrantCharge();
+
         if (UpgradeMessage.Instance != null)
         {
-            UpgradeMessage.Instance.Show("Nível " + level + "!");
+            string message = "Nível " + level + "!";
+            if (abilityReady)
+            {
+                message += " Habilidade pronta (ESPAÇO)";
+            }
+            UpgradeMessage.Instance.Show(message);
         }
     }
 

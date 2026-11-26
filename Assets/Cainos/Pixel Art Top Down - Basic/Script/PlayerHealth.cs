@@ -35,6 +35,17 @@ public class PlayerHealth : MonoBehaviour
         StartCoroutine(InvulnerabilityRoutine());
     }
 
+    // Recupera vida (sem passar do máximo). Retorna true se realmente curou alguma coisa,
+    // e false se a vida já estava cheia (ou o hero já morreu).
+    public bool Heal(int amount)
+    {
+        if (currentHealth <= 0 || currentHealth >= maxHealth) return false;
+
+        currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
+        UpdateBar();
+        return true;
+    }
+
     // Fica vermelho e translúcido durante o tempo em que não pode levar dano
     private IEnumerator InvulnerabilityRoutine()
     {
@@ -57,17 +68,17 @@ public class PlayerHealth : MonoBehaviour
     }
 
     private void Die()
-{
-    if (GameOverScreen.Instance != null)
     {
-        GameOverScreen.Instance.Show();
+        if (GameOverScreen.Instance != null)
+        {
+            GameOverScreen.Instance.Show();
+        }
+        else
+        {
+            Debug.Log("Game Over");
+            Time.timeScale = 0f;
+        }
     }
-    else
-    {
-        Debug.Log("Game Over");
-        Time.timeScale = 0f;
-    }
-}
 
     private void UpdateBar()
     {
