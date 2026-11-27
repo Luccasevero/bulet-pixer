@@ -67,5 +67,5 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "bulet-pixer.slnx"
+    "dotnet.defaultSolution": "bulet pixer.slnx"
 }

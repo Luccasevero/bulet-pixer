@@ -216,6 +216,10 @@ MonoBehaviour:
   xpValue: 1
   heartPrefab: {fileID: 2508488220161311520, guid: 342cfc13904d72f47bd2018d2b73a8f5, type: 3}
   heartDropChance: 0.07
+  deathSound: {fileID: 8300000, guid: cdaaf73197bb7a74bb085cd94afccfba, type: 3}
+  deathVolume: 1
+  pitchMin: 0.9
+  pitchMax: 1.1
 --- !u!114 &-9001819639035300191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -229,6 +233,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyContactDamage
   damage: 1
+  dieOnHit: 1
+  hitSound: {fileID: 8300000, guid: 9496feb530c6bc647a5d5a9208e8eaa3, type: 3}
+  hitVolume: 1
 --- !u!114 &1416720313812803225
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,3 +251,5 @@ MonoBehaviour:
   xpValue: 1
   magnetRange: 3
   magnetSpeed: 8
+  collectSound: {fileID: 0}
+  collectVolume: 0.5

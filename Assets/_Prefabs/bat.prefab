@@ -179,6 +179,10 @@ MonoBehaviour:
   xpValue: 3
   heartPrefab: {fileID: 2508488220161311520, guid: 342cfc13904d72f47bd2018d2b73a8f5, type: 3}
   heartDropChance: 0.1
+  deathSound: {fileID: 8300000, guid: cdaaf73197bb7a74bb085cd94afccfba, type: 3}
+  deathVolume: 1
+  pitchMin: 0.9
+  pitchMax: 1.1
 --- !u!70 &6942680987333145144
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -229,3 +233,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyContactDamage
   damage: 2
+  dieOnHit: 1
+  hitSound: {fileID: 8300000, guid: 40ad02b6a6e60774a8d1b18f16275f56, type: 3}
+  hitVolume: 1

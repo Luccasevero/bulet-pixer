@@ -13,6 +13,13 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] private GameObject heartPrefab;                  // coração que pode cair ao morrer
     [SerializeField, Range(0f, 1f)] private float heartDropChance = 0.05f; // 0,05 = 5% de chance
 
+// 26/11
+        [Header("Áudio")]
+    [SerializeField] private AudioClip deathSound;
+    [SerializeField, Range(0f, 1f)] private float deathVolume = 1f;
+    [SerializeField] private float pitchMin = 0.9f;
+    [SerializeField] private float pitchMax = 1.1f; //
+
     private int currentHealth;
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
@@ -69,7 +76,30 @@ public class EnemyHealth : MonoBehaviour
             Instantiate(heartPrefab, transform.position + offset, Quaternion.identity);
         }
 
+                // Toca o som de morte (fora do inimigo, para não cortar quando ele for destruído)
+        if (deathSound != null)
+        {
+            PlaySoundAtPoint(deathSound, transform.position, deathVolume);
+        }
+
         Destroy(gameObject);
+    }
+
+        // Toca um som 2D sem depender do inimigo, com pequena variação de pitch
+    private void PlaySoundAtPoint(AudioClip clip, Vector3 position, float volume)
+    {
+        GameObject temp = new GameObject("DeathSound");
+        temp.transform.position = position;
+
+        AudioSource source = temp.AddComponent<AudioSource>();
+        source.clip = clip;
+        source.volume = volume;
+        source.pitch = Random.Range(pitchMin, pitchMax);
+        source.spatialBlend = 0f; // 0 = som 2D, sempre audível independente da distância
+        source.Play();
+
+        // Destroi o objeto temporário quando o som acabar (ajustado pelo pitch)
+        Destroy(temp, clip.length / source.pitch);
     }
 
     // Pisca em vermelho pra mostrar que o tiro acertou (mas o inimigo ainda está vivo)

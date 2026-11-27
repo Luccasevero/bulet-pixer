@@ -148,6 +148,8 @@ MonoBehaviour:
   damageBonus: 1
   moveSpeedBonus: 0.5
   lifetime: 20
+  pickupSound: {fileID: 8300000, guid: 0110fb898f1725d4f912d700578a874f, type: 3}
+  pickupVolume: 1
 --- !u!114 &909695564428383913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,3 +162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25bf31d2f5d8e56478cac8f24ef151ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  somColeta: {fileID: 0}
+  pitchMin: 0.92
+  pitchMax: 1.08
+  volume: 1

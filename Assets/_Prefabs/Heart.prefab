@@ -144,3 +144,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HeartPickup
   healAmount: 1
   lifetime: 15
+  healSound: {fileID: 8300000, guid: 6cdf2b6afcdf03c4fb959f056819ba48, type: 3}
+  healVolume: 1

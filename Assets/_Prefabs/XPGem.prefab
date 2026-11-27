@@ -173,3 +173,5 @@ MonoBehaviour:
   xpValue: 1
   magnetRange: 3
   magnetSpeed: 8
+  collectSound: {fileID: 8300000, guid: 6cdf2b6afcdf03c4fb959f056819ba48, type: 3}
+  collectVolume: 0.5

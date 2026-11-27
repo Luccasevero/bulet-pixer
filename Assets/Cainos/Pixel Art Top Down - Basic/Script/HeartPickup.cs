@@ -6,6 +6,10 @@ public class HeartPickup : MonoBehaviour
     [SerializeField] private int healAmount = 1;
     [SerializeField] private float lifetime = 15f; // some sozinho se ninguém pegar
 
+    [Header("Áudio")]
+    [SerializeField] private AudioClip healSound;
+    [SerializeField, Range(0f, 1f)] private float healVolume = 1f;
+
     void Start()
     {
         Destroy(gameObject, lifetime);
@@ -27,6 +31,12 @@ public class HeartPickup : MonoBehaviour
             {
                 UpgradeMessage.Instance.Show("+" + healAmount + " de vida");
             }
+
+                        if (healSound != null)
+            {
+                AudioSource.PlayClipAtPoint(healSound, transform.position, healVolume);
+            }
+
             Destroy(gameObject);
         }
     }
