@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 3287685907626819373}
   - component: {fileID: 445375668183030335}
   - component: {fileID: 5567364252687678810}
+  - component: {fileID: 293118631630516767}
+  - component: {fileID: -9001819639035300191}
   m_Layer: 6
   m_Name: slime
   m_TagString: Enemy
@@ -171,7 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6c820c6322644e4a96b5a8886c24937, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyChase
-  speed: 3
+  speed: 4
   spriteFacesLeft: 0
 --- !u!95 &5567364252687678810
 Animator:
@@ -195,3 +197,41 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &293118631630516767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1934664302546616051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9327f0852686c5459bd82058428dee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyHealth
+  maxHealth: 1
+  flashTime: 0.08
+  xpGemPrefab: {fileID: 4641730622946375379, guid: afdae427e87162e40b49fa756e66f725, type: 3}
+  xpValue: 1
+  heartPrefab: {fileID: 2508488220161311520, guid: 342cfc13904d72f47bd2018d2b73a8f5, type: 3}
+  heartDropChance: 0.01
+  deathSound: {fileID: 8300000, guid: cdaaf73197bb7a74bb085cd94afccfba, type: 3}
+  deathVolume: 1
+  pitchMin: 0.9
+  pitchMax: 1.1
+--- !u!114 &-9001819639035300191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1934664302546616051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5c4958f29e97a34494fd8603931b1cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyContactDamage
+  damage: 1
+  dieOnHit: 1
+  hitSound: {fileID: 8300000, guid: 9496feb530c6bc647a5d5a9208e8eaa3, type: 3}
+  hitVolume: 1

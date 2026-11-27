@@ -6,6 +6,9 @@ public class Bullet : MonoBehaviour
     [SerializeField] private float speed = 10f;
     [SerializeField] private float lifetime = 3f;
 
+    [Header("Dano")]
+    [SerializeField] private int damage = 1;
+
     [Header("Atravessar inimigos")]
     [SerializeField] private int maxPierce = 1; // 1 = some no primeiro inimigo. O PlayerShooting sobrescreve esse valor ao atirar.
 
@@ -34,6 +37,11 @@ public class Bullet : MonoBehaviour
         maxPierce = Mathf.Max(1, value);
     }
 
+    public void SetDamage(int value)
+    {
+    damage = Mathf.Max(1, value);
+    }
+
     void Start()
     {
         rb.linearVelocity = direction * speed;
@@ -43,9 +51,16 @@ public class Bullet : MonoBehaviour
     {
         if (!other.CompareTag("Enemy")) return;
 
-        // Por enquanto só destrói o inimigo direto.
-        // Quando criarmos vida/dano, isso vira: other.GetComponent<EnemyHealth>().TakeDamage(...)
-        Destroy(other.gameObject);
+        EnemyHealth health = other.GetComponent<EnemyHealth>();
+        if (health != null)
+        {
+            health.TakeDamage(damage);
+        }
+        else
+        {
+            // Inimigo sem vida configurada: morre no primeiro acerto, como antes
+            Destroy(other.gameObject);
+        }
 
         hits++;
         if (hits >= maxPierce)

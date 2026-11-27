@@ -10,8 +10,8 @@ AnimatorStateMachine:
   m_Name: Base Layer
   m_ChildStates:
   - serializedVersion: 1
-    m_State: {fileID: -4459885876146751005}
-    m_Position: {x: 200, y: 0, z: 0}
+    m_State: {fileID: -2647043028376068407}
+    m_Position: {x: 283.61005, y: 98.02399, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -21,15 +21,15 @@ AnimatorStateMachine:
   m_EntryPosition: {x: 50, y: 120, z: 0}
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
-  m_DefaultState: {fileID: -4459885876146751005}
---- !u!1102 &-4459885876146751005
+  m_DefaultState: {fileID: -2647043028376068407}
+--- !u!1102 &-2647043028376068407
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: slime_andar
+  m_Name: mimic_andar
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -42,7 +42,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 4122f18002707aa4380d3043afeed60d, type: 2}
+  m_Motion: {fileID: 7400000, guid: 6e1fe1120c4c0f24b9c61394b59135e1, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -54,7 +54,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: slime
+  m_Name: mimic AnimatorController
   serializedVersion: 6
   m_AnimatorParameters: []
   m_AnimatorLayers:

@@ -13,6 +13,13 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 moveInput;
     private Vector2 lastMoveDirection = Vector2.down;
 
+    [SerializeField] private float maxSpeed = 8f; // teto de velocidade
+
+    public void AddSpeed(float amount)
+    {
+    speed = Mathf.Min(speed + amount, maxSpeed);
+    }
+
     void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
